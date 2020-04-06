@@ -1,0 +1,51 @@
+class Vector2D:
+
+	def __init__(self, x, y):
+		self.x = x
+		self.y = y
+
+	def __add__(self, other):
+
+		if (self.x * other.y) == (self.y * other.x):
+			print('\nCes vecteurs sont colinéaires.')
+		elif (self.x * other.x) == -(self.y * other.y):
+			print('\nCes vecteurs sont orthogonaux.')
+		else:
+			print('\nCes vecteurs ne sont ni colinéaires ni orthogonaux.')
+
+list = []
+my_list = ['premier', 'deuxième']
+
+for i in range(2):
+	x = float(input("Entrer l'abscisse du %s vecteur: " % (my_list[i])))
+	y = float(input("Entrer l'ordonnée du %s vecteur: " % (my_list[i])))
+	vector = Vector2D(x, y)
+	list.append(vector)
+
+result = list[0] + list[1]
+result
+
+import turtle
+
+s = turtle.getscreen()
+t = turtle.Turtle()
+turtle.title('Vector2D')
+t.speed(500)
+t.home()
+
+for i in range(4):
+	t.fd(400)
+	t.stamp()
+	t.bk(400)
+	t.rt(90)
+
+t.pen(pencolor = "red", fillcolor = "red", pensize = 2)
+
+for i in range(2):
+	t.goto(20*list[i].x, 20*list[i].y)
+	t.penup()
+	t.home()
+	t.pendown()
+
+t.pen(pencolor = "black", fillcolor = "red", pensize = 1)
+t.shape('circle') ; t.shapesize(0.25, 0.25, 0.25)
