@@ -1,0 +1,23 @@
+""" 
+
+This code asks the user to enter a word and it prints the reversed entered word 
+and number of occurences of each caracters.
+
+"""
+
+word = str(input("Entrer votre mot: "))
+
+list = []
+
+for i in range(len(word)):
+	list.append(word[i])
+
+print("Le mot inverse est %s"%(''.join(list[::-1])),end = '\n\n')
+
+my_list = "abcdefghijklmnopqrstuvwxyz0123456789"
+
+for x in range(36):
+
+	if my_list[x] in word:
+		y = word.count(my_list[x])
+		print("{} - {} occurence(s) - {}%".format(my_list[x], y, (100*y)/len(word)))
