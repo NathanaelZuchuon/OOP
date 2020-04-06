@@ -1,0 +1,16 @@
+n = int(input('Entrer un nombre: '))
+
+if n<0 :
+	print("{} n'a pas de racine réelle.".format(n))
+
+else:
+
+	i = 0
+	while i**2 != n:
+		i+=1
+		
+		if i > n:
+			print("{} n'a pas de racine entière.".format(n))
+			break   
+		elif i**2 == n:
+			print("{} a pour racine carrée {}".format(n, i))
