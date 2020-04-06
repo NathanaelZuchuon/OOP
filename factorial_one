@@ -1,0 +1,10 @@
+def fact(n):
+	
+	if (n == 0) or (n == 1):
+		return 1
+	else:
+		return n * fact(n-1)
+
+n = int(input("Entrer un nombre: "))
+print("Le factoriel de",n,"est",fact(n),'\n')
+#The RecursionError is reached at n = 994
