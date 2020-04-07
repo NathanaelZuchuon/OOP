@@ -1,0 +1,25 @@
+n = 0
+
+def prime_number(n):
+
+	while True:
+
+		if n == 0 or n == 1:
+			print("{} n'est pas premier.".format(n))
+
+		else:
+
+			i = 2
+
+			while n%i != 0:
+				i+=1
+
+			if i < n:
+				print("{} n'est pas premier.".format(n))
+
+			elif i == n:
+				print("{} est premier.".format(n))
+
+		n+=1  
+
+prime_number(n)
