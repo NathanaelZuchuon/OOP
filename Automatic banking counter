@@ -1,0 +1,196 @@
+class Guichet:
+
+	l_d = []
+	l_w = []
+	a = d = w = counter = 0
+
+	def __init__(self, user, code, amount, limit):
+		self.user = user
+		self.code = code
+		self.amount = amount
+		self.limit = limit
+
+	def account_consultation(self):
+		(guichet.a)+=1
+		print("Vous avez %s ." % (self.amount))
+
+	def deposit(self):
+		new_amount = int(input('\nEntrer le montant de dépôt: '))
+		
+		if new_amount != 5:
+			self.amount+=new_amount ; (guichet.d)+=1
+			guichet.l_d.append(new_amount)
+			print("Vous avez désormais %s ." % (self.amount))
+		else:
+			print('Dépôt annulé !')
+			guichet.cancel()			
+
+	def withdraw(self):
+		new_amount = int(input('\nEntrer le montant de retrait: '))
+		
+		if new_amount != 5:
+			while (self.amount-new_amount)<(self.limit):
+				new_amount = int(input("Votre compte s'élèvera à %s, inférieur à la limite: recommencer... " % (self.amount-new_amount)))
+				if new_amount == 5:
+					guichet.cancel()
+					break
+			if (self.amount-new_amount)>=(self.limit):
+					self.amount-=new_amount ; (Guichet.w)+=1
+					guichet.l_w.append(new_amount)
+					print("Il vous reste %s ." % (self.amount))
+		else:
+			print('Retrait annulé !')
+			guichet.cancel()			
+
+	def cancel(self):
+				
+		while guichet.counter == 0:
+			print("\n1. Consultation de compte\n2. Dépôt d'argent\n3. Retrait d'argent\n4. Déconnexion\n")
+			num = str(input('Veuillez entrer le nombre correspondant... '))
+		
+			if num == '1':
+				guichet.account_consultation()
+
+			elif num == '2':
+				print("Pour annuler l'opération en cours, entrer 5 ...")
+				guichet.deposit()
+
+			elif num == '3':
+				print("Pour annuler l'opération en cours, entrer 5 ...")
+				guichet.withdraw()
+
+			elif num == '4':
+		
+				if guichet.a == 0:
+					print("\nVous n'avez pas effectué de consultation.")
+				elif guichet.a == 1:
+					print("\nVous avez effectué une consultation.")
+				else:
+					print("\nVous avez effectué %s consultations." % (guichet.a))
+
+				if guichet.d == 0:
+					print("Vous n'avez pas effectué de dépôt.")
+				elif guichet.d == 1:
+					print("Vous avez effectué un dépôt de %s ." % (guichet.l_d[0]))
+				else:
+					print("Vous avez effectué %s dépôts: " % (guichet.d), end = '')
+			
+					for i in range(len(guichet.l_d)):
+						if i == len(guichet.l_d)-1:
+							print('et un de %s .' % (guichet.l_d[i]))
+						else:
+							print('un de %s, ' % (guichet.l_d[i]), end = '')
+		
+				if guichet.w == 0:
+					print("Vous n'avez pas effectué de retrait.")
+				elif guichet.w == 1:
+					print("Vous avez effectué un retrait de %s ." % (guichet.l_w[0]))
+				else:
+					print("Vous avez effectué %s retraits: " % (guichet.w), end = '')
+			
+					for i in range(len(guichet.l_w)):
+						if i == len(guichet.l_w)-1:
+							print('et un de %s .' % (guichet.l_w[i]))
+						else:
+							print('un de %s, ' % (guichet.l_w[i]), end = '')
+		
+				guichet.account_consultation()
+				print('\nÀ bientôt :)')
+				(guichet.counter)+=1
+				break
+
+			else:
+				print('Entrée invalide !')
+
+def sup(arg):
+	
+	while arg<0:
+		try:
+			arg = int(input('Entrer un montant positif: '))
+		except ValueError:
+			arg = 0
+			print('"On prendra comme montant limite 0"')
+
+	return arg
+
+print("Création d'un nouveau compte bancaire".center(80))
+
+user = str(input('Entrer votre nom: '))
+code = str(input('Entrer votre code: '))
+
+try:
+	limit = int(input('Entrer le montant minimal à rester dans votre compte: '))
+except ValueError:
+	limit = 0
+	print('"On prendra comme montant limite 0"')
+
+if limit<0:
+	sup(limit)
+
+arg = sup(limit)
+amount = int(input('Entrer votre montant de création: ')) ; print('')
+
+while arg>amount:
+	amount = int(input('Veuillez entrer un montant conséquent du montant limite: '))
+
+guichet = Guichet(user, code, amount, arg)
+
+print("\nBonjour %s, quelle opération voudriez-vous effectuer sur votre compte ?" % (user))
+
+while guichet.counter == 0:
+	
+	print("\n1. Consultation de compte\n2. Dépôt d'argent\n3. Retrait d'argent\n4. Déconnexion\n")
+	ans = str(input('Veuillez entrer le nombre correspondant... '))	
+
+	if ans == '1':
+		guichet.account_consultation()
+			
+	elif ans == '2':
+		print("Pour annuler l'opération en cours, entrer 5 ...")
+		guichet.deposit()
+	
+	elif ans == '3':
+		print("Pour annuler l'opération en cours, entrer 5 ...")
+		guichet.withdraw()
+	
+	elif ans == '4':
+		
+		if guichet.a == 0:
+			print("\nVous n'avez pas effectué de consultation.")
+		elif guichet.a == 1:
+			print("\nVous avez effectué une consultation.")
+		else:
+			print("\nVous avez effectué %s consultations." % (guichte.a))
+
+		if guichet.d == 0:
+			print("Vous n'avez pas effectué de dépôt.")
+		elif guichet.d == 1:
+			print("Vous avez effectué un dépôt de %s ." % (guichet.l_d[0]))
+		else:
+			print("Vous avez effectué %s dépôts: " % (guichet.d), end = '')
+			
+			for i in range(len(guichet.l_d)):
+				if i == len(guichet.l_d)-1:
+					print('et un de %s .' % (guichet.l_d[i]))
+				else:
+					print('un de %s, ' % (guichet.l_d[i]), end = '')
+		
+		if guichet.w == 0:
+			print("Vous n'avez pas effectué de retrait.")
+		elif guichet.w == 1:
+			print("Vous avez effectué un retrait de %s ." % (guichet.l_w[0]))
+		else:
+			print("Vous avez effectué %s retraits: " % (guichet.w), end = '')
+			
+			for i in range(len(guichet.l_w)):
+				if i == len(guichet.l_w)-1:
+					print('et un de %s .' % (guichet.l_w[i]))
+				else:
+					print('un de %s, ' % (guichet.l_w[i]), end = '')
+		
+		guichet.account_consultation()
+		print('\nÀ bientôt :)')
+		break
+					
+	else:
+		print('\nEntrée invalide !')
