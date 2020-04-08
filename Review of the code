@@ -143,7 +143,7 @@ arg = sup(limit)
 amount = int(input('Entrer le montant de création du compte: '))
 
 while arg>amount:
-	amount = int(input('Veuillez entrer un montant excédant le montant limite: ')) # This will be ask while the limit is greather than the counter amount creation
+	amount = int(input('Veuillez entrer un montant excédant le montant limite: ')) # This will be asks while the limit is greather than the counter amount creation
 
 guichet = Guichet(user, code, amount, arg)
 print("\nBonjour %s, quelle opération voudriez-vous effectuer sur votre compte ?" % (user.capitalize()))
