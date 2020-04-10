@@ -1,0 +1,52 @@
+import random
+import sys
+
+class Player:
+
+	def __init__(self, name, score=0):
+		self.name = name
+		self.score = score
+
+	def add(self, value_1, value_2):
+		self.score+=(value_1+value_2)
+		return '\nTu as joué %s et %s sur les dés.\nTon score est donc de %s .' % (value_1, value_2, self.score)
+
+i = True ; index = 0
+while i:
+
+	list = ['premier', 'deuxième']
+	for i in range(2):
+		name = str(input('Entrer le nom du %s joueur: ' % (list[0]))) ; name.capitalize()
+		player = Player(name)
+		list.append(player) ; list.remove(list[0])
+
+	print('\nLA PARTIE PEUT COMMENCER...')
+
+	while True:
+
+		try:
+			num = int(input("\n%s entre n'importe quel nombre: " % (list[index].name)))
+		except ValueError:
+			print("J'ai dis un nombre, jeu terminé :(")
+			sys.exit()
+
+		value_1 = random.randint(1,6) ; value_2 = random.randint(1,6)
+		print(list[index].add(value_1, value_2)) ; index = abs(index-1)
+
+		if list[0].score >= 100:
+			print("\n%s gagne avec %s car %s n'a que %s ." % (list[0].name, list[0].score, list[1].name, list[1].score))
+			break
+		if list[1].score >= 100:
+			print("\n%s gagne avec %s car %s n'a que %s ." % (list[1].name, list[1].score, list[0].name, list[0].score))
+			break
+
+	ans = str(input('\nVoulez-vous rejouer? (O/N)'))
+
+	while (ans != 'O') and (ans != 'N'):
+		ans = str(input('(O/N) '))
+
+		if ans == 'O':
+			break
+		elif ans == 'N':
+			i = False
+			break
