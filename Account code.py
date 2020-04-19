@@ -166,7 +166,7 @@ class Guichet:
 
 			for i in range(len(historical._times)):
 
-				if i == len(historical._times) - 1:
+				if i == len(historical._times) - 1 and len(historical._times) != 1:
 					print("et %s de %s ." % (historical._times[i], historical._unique_amount[i]))
 				elif len(historical._times) == 1:
 					print("%s de %s." % (historical._times[i], historical._unique_amount[i]))
@@ -263,7 +263,7 @@ class Guichet:
 					print("et %s de %s ." % (historical._times[i], historical._unique_amount[i]))
 				elif len(historical._times) == 1:
 					print("%s de %s." % (historical._times[i], historical._unique_amount[i]))
-				elif (i != len(historical._times) - 1) or len(historical._times) == 1:
+				else:
 					print("%s de %s, " % (historical._times[i], historical._unique_amount[i]), end = "")
 
 	def logout(self):
