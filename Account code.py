@@ -1,27 +1,33 @@
 import sys
 
 
-def non_nullity(arg): # The limit must be greater than or equal to zero.
+def except_ValueError(value): # There must be an entrance.
+		
+	if len(value) == 0 or ('-' in value) or ('+' in value): # To reject negative numbers
+		return True
+	else:
+		return False
 
-	while (arg<0):
+def except_TypeError(value):
 
-		try:
-			arg = int(input("Entrer un bon montant: "))
-		except ValueError:
-			arg = 0
-			print('"On prendra comme montant limite 0"')
-			break
+	# The entrance must not be: a mixture of number and letter
+	# and different from 'X' or 'x'.
 
-	return arg
+	try:
+		int(value)
+	except ValueError:
+		return True
+	else:
+		return False
 
 
-class History:
+class Historical:
 
 	"""
-	This class embellishes the history
+	This class embellishes the historical
 	by concatenating the amounts, eg:
-	amounts: 10, 20, 10, 30, 20 40.
-	output: 2 of 10, 2 of 20, 1 of 30, 1 of 40.
+	amounts: 10, 20, 10, 30, 20, 40.
+	output: 2 of 10, 2 of 20, 1 of 30, and 1 of 40.
 
 	"""
 
@@ -30,7 +36,7 @@ class History:
 		self._times = None
 		self._unique_amount = None
 
-	def history_formatting(self):
+	def historical_formatting(self):
 
 		self._unique_amount = list(set(self.list_amount)) # To remove multiple same amounts.
 
@@ -66,12 +72,12 @@ class Guichet:
 		guichet.display_formatting()
 		guichet.main()
 
-	def text_one(self, value):
+	def text_one(self, amount):
 
-		if value == 0: # 0 is not considered to be a true value.
+		if amount == 0: # 0 is not considered to be a real amount.
 			print("Votre solde vaut toujours %s et l'opération ne sera pas prise en compte." % (self.amount))
 
-		return value == 0
+		return amount == 0
 
 	def text_two(self):
 
@@ -79,7 +85,7 @@ class Guichet:
 
 	def cancellation_check(self, value):
 
-		if value.upper() == "RETOUR": # To cancel the operation in progress.
+		if value.upper() == "X": # To cancel the operation in progress.
 			return True
 		else:
 			return False
@@ -90,7 +96,7 @@ class Guichet:
 
 	def information_about_cancellation(self):
 
-		print("Pour annuler l'opération en cours, entrer 'RETOUR' ...")
+		print("Pour annuler l'opération en cours, entrer 'X' ou 'x' ...")
 
 	def str_to_int(self, value):
 
@@ -101,7 +107,7 @@ class Guichet:
 		(guichet.consultation_number)+=1 # will return the number of account consultation
 		print("Votre solde est de %s ." % (self.amount))
 
-	def account_consultation_history(self):
+	def account_consultation_historical(self):
 
 		if guichet.consultation_number == 0:
 			print("\nVous n'avez pas effectué de consultation.")
@@ -120,24 +126,36 @@ class Guichet:
 
 		else:
 
+			while except_ValueError(new_amount) or except_TypeError(new_amount): 
+
+				new_amount = str(input("Entrer le montant de dépôt: "))
+			
+				if guichet.cancellation_check(new_amount):
+					guichet.func()
+					break
+
+		if except_TypeError(new_amount) == False:
+
 			# At this level the input is a number-string, eg: '100' .
 			# Hence the call of the 'str_to_int' method
 			new_amount = guichet.str_to_int(new_amount)
 
 			if guichet.text_one(new_amount):
 				pass
-			
+
 			else:
-				
+
 				self.amount+=new_amount
 				(guichet.deposit_number)+=1 # will return the number of deposit
 				guichet.deposit_amount.append(new_amount) # will return the deposit amount
 				guichet.text_two()
+		else:
+			pass
 
-	def deposit_history(self):
+	def deposit_historical(self):
 
-		history = History(guichet.deposit_amount)
-		history.history_formatting()
+		historical = Historical(guichet.deposit_amount)
+		historical.historical_formatting()
 
 		if guichet.deposit_number == 0:
 			print("Vous n'avez pas effectué de dépôt.")
@@ -146,14 +164,14 @@ class Guichet:
 		else:
 			print("Vous avez effectué %s dépôts: " % (guichet.deposit_number), end = "")
 
-			for i in range(len(history._times)):
+			for i in range(len(historical._times)):
 
-				if i == len(history._times) - 1:
-					print("et %s de %s ." % (history._times[i], history._unique_amount[i]))
-				elif len(history._times) == 1:
-					print("%s de %s." % (history._times[i], history._unique_amount[i]))
+				if i == len(historical._times) - 1:
+					print("et %s de %s ." % (historical._times[i], historical._unique_amount[i]))
+				elif len(historical._times) == 1:
+					print("%s de %s." % (historical._times[i], historical._unique_amount[i]))
 				else:
-					print("%s de %s, " % (history._times[i], history._unique_amount[i]), end = "")
+					print("%s de %s, " % (historical._times[i], historical._unique_amount[i]), end = "")
 
 	def withdrawal_verification_one(self, amount, limit):
 
@@ -179,34 +197,58 @@ class Guichet:
 
 		else:
 
-			new_amount = guichet.str_to_int(new_amount)
-			
-			while guichet.withdrawal_verification_one((self.amount - new_amount), self.limit):
+			while except_ValueError(new_amount) or except_TypeError(new_amount):
 
-				new_amount = str(input("Votre solde s'élèvera à %s, inférieur à la limite: recommencer le retrait... " % (self.amount - new_amount)))
+				new_amount = str(input("Entrer le montant de retrait: "))
 
 				if guichet.cancellation_check(new_amount):
 					guichet.func()
 					break
 
+		if except_TypeError(new_amount) == False:
+
+			new_amount = guichet.str_to_int(new_amount)
+			
+			while guichet.withdrawal_verification_one((self.amount - new_amount), self.limit):
+
+				i = guichet.str_to_int(new_amount)
+				new_amount = str(input("Votre solde s'élèvera à %s, inférieur à la limite: recommencer le retrait... " % (self.amount - i)))
+
+				if guichet.cancellation_check(new_amount):
+					guichet.func()
+					break
+
+				else:
+
+					while except_ValueError(new_amount) or except_TypeError(new_amount):
+						
+						new_amount = str(input("Votre solde s'élèvera à %s, inférieur à la limite: recommencer le retrait... " % (self.amount - i)))
+
+						if guichet.cancellation_check(new_amount):
+							guichet.func()
+							break
+
 				new_amount = guichet.str_to_int(new_amount)
 
 			if guichet.withdrawal_verification_two((self.amount - new_amount), self.limit):
-					
+
 				if guichet.text_one(new_amount):
 					pass
 					
 				else:
-						
+
 					self.amount-=new_amount
 					(guichet.withdraw_number)+=1 # will return the number of withdraw
 					guichet.withdraw_amount.append(new_amount) # will return the withdraw amount
 					guichet.text_two()
 
-	def withdraw_history(self):
+		else:
+			pass
 
-		history = History(guichet.withdraw_amount)
-		history.history_formatting()
+	def withdraw_historical(self):
+
+		historical = Historical(guichet.withdraw_amount)
+		historical.historical_formatting()
 
 		if guichet.withdraw_number == 0:
 			print("Vous n'avez pas effectué de retrait.")
@@ -215,25 +257,25 @@ class Guichet:
 		else:
 			print("Vous avez effectué %s retraits: " % (guichet.withdraw_number), end = "")
 
-			for i in range(len(history._times)):
+			for i in range(len(historical._times)):
 
-				if i == len(history._times) - 1 and len(history._times) != 1:
-					print("et %s de %s ." % (history._times[i], history._unique_amount[i]))
-				elif len(history._times) == 1:
-					print("%s de %s." % (history._times[i], history._unique_amount[i]))
-				elif (i != len(history._times) - 1) or len(history._times) == 1:
-					print("%s de %s, " % (history._times[i], history._unique_amount[i]), end = "")
+				if i == len(historical._times) - 1 and len(historical._times) != 1:
+					print("et %s de %s ." % (historical._times[i], historical._unique_amount[i]))
+				elif len(historical._times) == 1:
+					print("%s de %s." % (historical._times[i], historical._unique_amount[i]))
+				elif (i != len(historical._times) - 1) or len(historical._times) == 1:
+					print("%s de %s, " % (historical._times[i], historical._unique_amount[i]), end = "")
 
 	def logout(self):
 
-		# This is the transaction history.
+		# This is the transaction historical.
 		# This method returns:
 		# the number of operations performed,
 		# and the concatenated amounts of each operation.
 
-		guichet.account_consultation_history()
-		guichet.deposit_history()
-		guichet.withdraw_history()
+		guichet.account_consultation_historical()
+		guichet.deposit_historical()
+		guichet.withdraw_historical()
 		guichet.account_consultation()
 
 		print("\nÀ bientôt :)")
@@ -261,20 +303,26 @@ print("CREATION D'UN NOUVEAU COMPTE BANCAIRE".center(80))
 
 user = str(input("Entrer votre nom: "))
 code = str(input("Entrer votre code: "))
+limit = str(input("Entrer le montant minimal à rester dans votre compte: "))
 
-try:
-	limit = int(input("Entrer le montant minimal à rester dans votre compte: "))
-except ValueError:
-	limit = 0
-	print('"On prendra comme montant limite 0"')
+while except_ValueError(limit) or except_TypeError(limit):
+	limit = str(input("Entrer le montant minimal à rester dans votre compte: "))
 
-arg = non_nullity(limit)
+amount = str(input("Entrer le montant de création du compte: "))
 
-amount = int(input("Entrer le montant de création du compte: "))
+while except_ValueError(amount) or except_TypeError(amount):
+	amount = str(input("Entrer le montant de création du compte: "))
 
-while (arg>amount):  # to respect the limit amount
-	amount = int(input("Veuillez entrer un montant excédant le montant limite: "))
+limit, amount = int(limit), int(amount)
 
-guichet = Guichet(user, code, amount, arg)
+while (limit>amount): # to respect the limit amount
+	amount = str(input("Veuillez entrer un montant excédant le montant limite: "))
+
+	while except_ValueError(amount) or except_TypeError(amount):
+		amount = str(input("Veuillez entrer un montant excédant le montant limite: "))
+
+	amount = int(amount)
+
+guichet = Guichet(user, code, amount, limit)
 print("\nBonjour %s, quelle opération voudriez-vous effectuer sur votre compte ?" % (user))
 guichet.main()
